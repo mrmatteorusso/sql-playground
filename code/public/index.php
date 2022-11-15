@@ -37,7 +37,7 @@ function doesDBExists($host, $user, $pass, $db)
     }
 }
 
-function createDB($host, $user, $pass, $db)
+function createDB($db)
 {
     $pdoNewDB = newObjectFromPDO();
 
@@ -48,9 +48,9 @@ function createDB($host, $user, $pass, $db)
 }
 
 
-function createTable($host, $db, $user, $pass, $table)
+function createTable($table)
 {
-    $pdoNewDB = new PDO("mysql:host=$host;dbname=$db;", $user, $pass);
+    $pdoNewDB = newObjectFromPDO();
     $pdoNewDB->exec(
         "CREATE TABLE $table(
             id int not null auto_increment,
@@ -62,9 +62,9 @@ function createTable($host, $db, $user, $pass, $table)
     );
 }
 
-function getData($host, $db, $user, $pass, $table)
+function getData($table)
 {
-    $pdo = new PDO("mysql:host=$host;dbname=$db;", $user, $pass);
+    $pdo = newObjectFromPDO();
     $stmt = $pdo->query(
         "SELECT * FROM $table;"
     )->fetchAll();
@@ -72,9 +72,9 @@ function getData($host, $db, $user, $pass, $table)
     return $stmt;
 }
 
-function insertData($host, $db, $pass, $user, $table, $newUser)
+function insertData($table, $newUser)
 {
-    $pdoNewDB = new PDO("mysql:host=$host;dbname=$db;", $user, $pass);
+    $pdoNewDB = newObjectFromPDO();
 
     $stmt = $pdoNewDB->prepare(
         "INSERT INTO $table (
@@ -87,19 +87,19 @@ function insertData($host, $db, $pass, $user, $table, $newUser)
 
 
 
-function deleteData($host, $db, $pass, $user, $table, $id)
+function deleteData($table, $id)
 {
 
-    $pdoNewDB = new PDO("mysql:host=$host;dbname=$db;", $user, $pass);
+    $pdoNewDB = newObjectFromPDO();
     $pdoNewDB->exec(
         "DELETE FROM $table WHERE id = $id;"
     );
 }
 
-function updateData($host, $db, $pass, $user, $table, $id, $modifiedUser)
+function updateData($table, $id, $modifiedUser)
 {
 
-    $pdoNewDB = new PDO("mysql:host=$host;dbname=$db;", $user, $pass);
+    $pdoNewDB = newObjectFromPDO();
     $pdoNewDB->exec(
         "UPDATE $table SET user = '$modifiedUser' WHERE id = $id;"
     );
